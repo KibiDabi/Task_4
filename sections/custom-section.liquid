@@ -1,0 +1,143 @@
+<!-- custom-section.liquid -->
+
+<section class="custom-section">
+  <div class="custom-section__content">
+    <!-- Image Section -->
+    <div class="custom-section__image">
+      <img
+        src="{{ section.settings.image | image_url: 'master' }}"
+        width="600"
+        height="400"
+        alt="{{ section.settings.image_alt }}"
+      >
+    </div>
+
+    <!-- Text Section -->
+    <div class="custom-section__text-container">
+      <h1 class="custom-section__title">
+        {{ section.settings.title }}
+      </h1>
+
+      <!-- Main Text -->
+      <p class="custom-section__text">{{ section.settings.main_text }}</p>
+
+      <!-- Extra Text -->
+      <p class="custom-section__extra-text">{{ section.settings.extra_text }}</p>
+    </div>
+    <!-- Toggle Button -->
+    <button class="custom-section__toggle-button">{{ section.settings.button_text }}</button>
+  </div>
+
+  <style>
+    .custom-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .custom-section__image img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px; /* Add space between image and text */
+    }
+
+    .custom-section__text-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .custom-section__text,
+    .custom-section__extra-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      pointer-events: none;
+    }
+
+    .custom-section__text {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .custom-section__extra-text--visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .custom-section__text--hidden {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    .custom-section__toggle-button {
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const section = document.querySelector('.custom-section');
+      const toggleButton = section.querySelector('.custom-section__toggle-button');
+      const mainText = section.querySelector('.custom-section__text');
+      const extraText = section.querySelector('.custom-section__extra-text');
+
+      toggleButton.addEventListener('click', function () {
+        mainText.classList.toggle('custom-section__text--hidden');
+        extraText.classList.toggle('custom-section__extra-text--visible');
+      });
+    });
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Image + Text Section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "Default alt text for the image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "HANDCRAFTED AND RESPONSIBLY SOURCED"
+    },
+    {
+      "type": "text",
+      "id": "main_text",
+      "label": "Main Text",
+      "default": "This is the original text."
+    },
+    {
+      "type": "text",
+      "id": "extra_text",
+      "label": "Extra Text",
+      "default": "This is the extra text that appears after toggling."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Toggle"
+    }
+  ]
+}
+{% endschema %}
